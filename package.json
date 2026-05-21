@@ -13,7 +13,12 @@
     "db:seed": "npx tsx db/seed.ts",
     "db:studio": "drizzle-kit studio",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "backend:install": "cd backend && npm install",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:build": "cd backend && npm run build",
+    "backend:start": "cd backend && npm run start",
+    "dev:all": "concurrently \"npm run dev\" \"npm run backend:dev\""
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",

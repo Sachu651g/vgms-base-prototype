@@ -104,3 +104,87 @@ lib/
 - **Hostel tracking** with night-out approval workflow (Warden → HOD → Principal)
 - **Full audit trail** for all actions
 - **Cron jobs** for auto-expiry, escalation, and overdue detection
+
+---
+
+## NestJS Backend (Port 4000)
+
+Runs alongside Next.js on a separate port.
+Reuses the same DrizzleORM schema and DATABASE_URL.
+No duplicate migrations needed.
+
+### Setup
+
+Install backend dependencies:
+```bash
+npm run backend:install
+```
+
+Run migrations (already done if Next.js works):
+```bash
+npm run db:migrate
+```
+
+Start NestJS on port 4000:
+```bash
+npm run backend:dev
+```
+
+Start both Next.js + NestJS together:
+```bash
+npm run dev:all
+```
+
+### 5 CRUD APIs — Users
+
+Base URL: `http://localhost:4000/api`
+
+| # | Method | Endpoint       | Description                        |
+|---|--------|----------------|------------------------------------|
+| 1 | GET    | /api/users     | List users (page, limit, search)   |
+| 2 | GET    | /api/users/:id | Get single user by UUID            |
+| 3 | POST   | /api/users     | Create user (password bcrypted)    |
+| 4 | PUT    | /api/users/:id | Update user (partial)              |
+| 5 | DELETE | /api/users/:id | Delete user                        |
+|   | GET    | /api/health    | Health check                       |
+
+### curl examples
+
+Health check:
+```bash
+curl http://localhost:4000/api/health
+```
+
+List users:
+```bash
+curl "http://localhost:4000/api/users?page=1&limit=10"
+```
+
+Search by role:
+```bash
+curl "http://localhost:4000/api/users?search=ravi&role=student"
+```
+
+Get one user:
+```bash
+curl http://localhost:4000/api/users/<uuid>
+```
+
+Create user:
+```bash
+curl -X POST http://localhost:4000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test HOD","email":"hod2@vgms.com","password":"Vgms@1234","role":"hod"}'
+```
+
+Update user:
+```bash
+curl -X PUT http://localhost:4000/api/users/<uuid> \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Updated Name","isActive":false}'
+```
+
+Delete user:
+```bash
+curl -X DELETE http://localhost:4000/api/users/<uuid>
+```
