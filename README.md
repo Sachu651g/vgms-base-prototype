@@ -188,3 +188,39 @@ Delete user:
 ```bash
 curl -X DELETE http://localhost:4000/api/users/<uuid>
 ```
+
+### API Endpoints — Visitors (NestJS)
+
+Base URL: `http://localhost:4000/api`
+
+| Method | Endpoint            | Description                     |
+|--------|---------------------|---------------------------------|
+| GET    | /api/visitors       | List visitors (paginated)       |
+| GET    | /api/visitors/:id   | Get single visitor by UUID      |
+| POST   | /api/visitors       | Register a new visitor          |
+| PUT    | /api/visitors/:id   | Update visitor details          |
+| DELETE | /api/visitors/:id   | Delete visitor record           |
+
+#### List visitors
+```bash
+curl "http://localhost:4000/api/visitors?page=1&limit=10"
+```
+
+#### Create visitor
+```bash
+curl -X POST http://localhost:4000/api/visitors \
+  -H "Content-Type: application/json" \
+  -d '{"branchId": "<branch-uuid>","name": "John Doe","phone": "9876543210","email": "john@example.com","idType": "Aadhar","idNumber": "1234-5678-9012"}'
+```
+
+#### Update visitor
+```bash
+curl -X PUT http://localhost:4000/api/visitors/<uuid> \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Updated"}'
+```
+
+#### Delete visitor
+```bash
+curl -X DELETE http://localhost:4000/api/visitors/<uuid>
+```
