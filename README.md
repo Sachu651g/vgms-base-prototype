@@ -3,7 +3,8 @@
 Enterprise-grade, role-based gate pass and visitor management system for multi-branch educational institutions.
 
 ## Tech Stack
-- **Framework**: Next.js 16 (App Router)
+- **Frontend Framework**: Next.js 16 (App Router)
+- **Backend Framework**: NestJS (v10) (Port 4000)
 - **ORM**: DrizzleORM
 - **Database**: PostgreSQL (Neon)
 - **Styling**: TailwindCSS v4
@@ -94,6 +95,14 @@ lib/
 ├── qr.ts                  ← AES-256-CBC QR payload encryption
 ├── utils.ts               ← Audit log + state machine helpers
 └── notifications.ts       ← In-app notification service
+backend/
+├── src/
+│   ├── modules/
+│   │   ├── users/         ← NestJS Users module (Controller, DTOs, Service)
+│   │   └── visitors/      ← NestJS Visitors module (Controller, DTOs, Service)
+│   ├── health.controller.ts ← Health check controller
+│   ├── app.module.ts      ← Root application module
+│   └── main.ts            ← NestJS Entrypoint with Swagger API Docs
 ```
 
 ## Key Features
@@ -112,6 +121,14 @@ lib/
 Runs alongside Next.js on a separate port.
 Reuses the same DrizzleORM schema and DATABASE_URL.
 No duplicate migrations needed.
+
+### API Documentation (Swagger)
+
+A fully interactive Swagger UI is available for the backend APIs.
+
+- **Swagger UI**: [http://localhost:4000/api/docs](http://localhost:4000/api/docs)
+
+You can use the Swagger interface to explore and test the endpoints directly from your browser.
 
 ### Setup
 
