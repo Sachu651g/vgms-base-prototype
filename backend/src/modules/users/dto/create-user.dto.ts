@@ -1,11 +1,5 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export type UserRole =
   | 'super_admin' | 'branch_admin' | 'principal' | 'hod'
@@ -19,29 +13,31 @@ const ROLES: UserRole[] = [
 ];
 
 export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
+  @ApiProperty({ example: 'Student Ravi', description: 'Full name of the user' })
+  @IsString() @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ example: 'ravi@vgms.com', description: 'Unique email address' })
   @IsEmail()
   email: string;
 
-  @IsString()
-  @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @ApiProperty({ example: 'Vgms@1234', description: 'Minimum 8 characters. Stored as bcrypt hash.' })
+  @IsString() @MinLength(8)
   password: string;
 
-  @IsEnum(ROLES, { message: `role must be one of: ${ROLES.join(', ')}` })
+  @ApiProperty({ enum: ROLES, example: 'student', description: 'User role — determines dashboard and permissions' })
+  @IsEnum(ROLES)
   role: UserRole;
 
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({ example: '9876543210', description: 'Mobile number' })
+  @IsOptional() @IsString()
   phone?: string;
 
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({ example: 'uuid-of-branch', description: 'Branch UUID to assign the user to' })
+  @IsOptional() @IsString()
   branchId?: string;
 
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({ example: 'uuid-of-department', description: 'Department UUID' })
+  @IsOptional() @IsString()
   departmentId?: string;
 }
